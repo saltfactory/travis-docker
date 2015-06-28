@@ -4,7 +4,8 @@ install:
 - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
-- ./run test.sh
+  - ./run "./test.sh"
+# - ./run "docker version && docker info"
 
 # language: bash
 #
