@@ -3,8 +3,8 @@ language: bash
 # for secret experimental features ;)
 dist: trusty
 
-# env:
-#   - VERSION=10.0
+env:
+  - VERSION=10.0
 #   - VERSION=5.5
 
 install:
@@ -12,10 +12,9 @@ install:
 
 before_script:
   - env | sort
-  # - cd "$VERSION"
-  # - image="mariadb:$VERSION"
+  - cd "$VERSION"
+  - image="mariadb:$VERSION"
   #
 script:
-  - docker version
-  # - docker build -t "$image" .
+  - docker build -t "$image" .
   # - ~/official-images/test/run.sh "$image"
