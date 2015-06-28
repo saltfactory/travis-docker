@@ -1,0 +1,14 @@
+language: bash
+
+# allow for use of Docker-based workers
+sudo: true
+
+
+install:
+  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+  - echo exit 101 | sudo tee /usr/sbin/policy-rc.d
+  - sudo chmod +x /usr/sbin/policy-rc.d
+
+script:
+  - docker version
