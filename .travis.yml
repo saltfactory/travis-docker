@@ -1,14 +1,24 @@
-language: bash
+env:
+  global:
+    - "HOST_IP=$(/sbin/ifconfig venet0:0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')"
+    - "DOCKER_HOST=tcp://$HOST_IP:9000"
+    - "SLIRP_PORTS=\"9000 80 443 $(seq -s ' ' $(cat /proc/sys/net/ipv4/ip_local_port_range | awk '{print $1, ($1+30) }'))\""
 
-# allow for use of Docker-based workers
-sudo: required
-
-
-install:
-  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
-  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+before_install:
   - echo exit 101 | sudo tee /usr/sbin/policy-rc.d
   - sudo chmod +x /usr/sbin/policy-rc.d
 
+install:
+  - sudo apt-get -y update
+  - sudo apt-get -y install slirp
+  - curl https://get.docker.com/ | sudo sh
+  - sudo sudo usermod -aG docker "$USER"
+
+# before_script:
+#   - "sekexe/run 'docker -d -H tcp://0.0.0.0:2375' &"
+#   - "while ! docker info &> /dev/null ; do sleep 5; done"
+
 script:
   - docker version
+  # - docker pull java:7
+  # - bundle exec rspec --format documentation --fail-fast
