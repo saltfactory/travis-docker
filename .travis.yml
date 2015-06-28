@@ -1,7 +1,7 @@
 language: bash
 
 # allow for use of Docker-based workers
-sudo: true
+sudo: required
 
 
 install:
