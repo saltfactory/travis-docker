@@ -1,20 +1,28 @@
-language: bash
-
-# for secret experimental features ;)
-dist: trusty
-
-env:
-  - VERSION=10.0
-#   - VERSION=5.5
+sudo: true
 
 install:
-  - git clone https://github.com/docker-library/official-images.git ~/official-images
+- curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
-before_script:
-  - env | sort
-  - cd "$VERSION"
-  - image="mariadb:$VERSION"
-  #
 script:
-  - docker build -t "$image" .
-  # - ~/official-images/test/run.sh "$image"
+- ./run "docker version && docker info"
+
+# language: bash
+#
+# # for secret experimental features ;)
+# dist: trusty
+#
+# env:
+#   - VERSION=10.0
+# #   - VERSION=5.5
+#
+# install:
+#   - git clone https://github.com/docker-library/official-images.git ~/official-images
+#
+# before_script:
+#   - env | sort
+#   - cd "$VERSION"
+#   - image="mariadb:$VERSION"
+#   #
+# script:
+#   - docker build -t "$image" .
+#   # - ~/official-images/test/run.sh "$image"
